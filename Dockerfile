@@ -1,0 +1,33 @@
+FROM modpreneur/necktie-fpm:0.1
+
+MAINTAINER Martin Kolek <kolek@modpreneur.com>
+
+RUN apk add --update \
+    nano \
+    nodejs
+
+RUN echo "max_execution_time=60" >> /usr/local/etc/php/php.ini \
+    && echo "error_log = /var/log/php.errors" >> /usr/local/etc/php/php.ini \
+    && docker-php-ext-install pcntl iconv\
+    && npm install -g less \
+    && npm install -g webpack  --save-dev \
+    && npm install -g uglifycss \
+    && npm install -g eslint eslint-plugin-react \
+    && composer global require "hirak/prestissimo:^0.3" \
+    && composer global require phpunit/phpunit \
+    && composer global require codeception/codeception
+
+RUN echo "alias codecept=\"php -n -d extension=pdo_pgsql.so -d extension=pdo_mysql.so -d extension=apcu.so -d extension=apc.so /var/app/vendor/codeception/codeception/codecept\"" >> /etc/bash.bashrc
+
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug \
+    && echo "xdebug.remote_enable=1" >> /usr/local/etc/php/php.ini \
+    && echo "xdebug.remote_port=9000" >> /usr/local/etc/php/php.ini \
+    && echo "xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/php.ini \
+    && echo "xdebug.remote_connect_back=1" >> /usr/local/etc/php/php.ini \
+    && echo "xdebug.profiler_enable=0" >> /usr/local/etc/php/php.ini \
+    && echo "xdebug.profiler_output_dir=/var/app/var/xdebug/" >> /usr/local/etc/php/php.ini \
+    && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/php.ini \
+    && echo "alias composer=\"php -n -d memory_limit=2048M -d extension=bcmath.so -d extension=zip.so /usr/bin/composer\"" >> /etc/bash.bashrc
+
+RUN echo "modpreneur/necktie-fpm-dev:0.1" >> /home/versions
