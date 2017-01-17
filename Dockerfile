@@ -4,7 +4,11 @@ MAINTAINER Martin Kolek <kolek@modpreneur.com>
 
 RUN apk add --update \
     nano \
-    nodejs
+    nodejs \
+    fish
+
+ENV TERM xterm
+
 
 RUN echo "max_execution_time=60" >> /usr/local/etc/php/php.ini \
     && echo "error_log = /var/log/php.errors" >> /usr/local/etc/php/php.ini \
@@ -17,7 +21,8 @@ RUN echo "max_execution_time=60" >> /usr/local/etc/php/php.ini \
     && composer global require phpunit/phpunit \
     && composer global require codeception/codeception
 
-RUN echo "alias codecept=\"php -n -d extension=pdo_pgsql.so -d extension=pdo_mysql.so -d extension=apcu.so -d extension=apc.so /var/app/vendor/codeception/codeception/codecept\"" >> /etc/bash.bashrc
+RUN mkdir -p /root/.config/fish/functions \
+    && echo "alias codecept=\"php -n -d extension=pdo_pgsql.so -d extension=pdo_mysql.so -d extension=apcu.so -d extension=apc.so /var/app/vendor/codeception/codeception/codecept\"" >> /root/.config/fish/functions/codecept.fish
 
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug \
@@ -28,6 +33,6 @@ RUN pecl install xdebug \
     && echo "xdebug.profiler_enable=0" >> /usr/local/etc/php/php.ini \
     && echo "xdebug.profiler_output_dir=/var/app/var/xdebug/" >> /usr/local/etc/php/php.ini \
     && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/php.ini \
-    && echo "alias composer=\"php -n -d memory_limit=2048M -d extension=bcmath.so -d extension=zip.so /usr/bin/composer\"" >> /etc/bash.bashrc
+    && echo "alias composer=\"php -n -d memory_limit=2048M -d extension=bcmath.so -d extension=zip.so /usr/bin/composer\"" >> /root/.config/fish/functions/composer.fish
 
-RUN echo "modpreneur/necktie-fpm-dev:0.2" >> /home/versions
+RUN echo "modpreneur/necktie-fpm-dev:0.3" >> /home/versions
