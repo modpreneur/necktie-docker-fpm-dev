@@ -1,4 +1,4 @@
-FROM modpreneur/necktie-fpm:0.1
+FROM modpreneur/necktie-fpm:0.2
 
 MAINTAINER Martin Kolek <kolek@modpreneur.com>
 
@@ -30,4 +30,4 @@ RUN pecl install xdebug \
     && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/php.ini \
     && echo "alias composer=\"php -n -d memory_limit=2048M -d extension=bcmath.so -d extension=zip.so /usr/bin/composer\"" >> /etc/bash.bashrc
 
-RUN echo "modpreneur/necktie-fpm-dev:0.1" >> /home/versions
+RUN echo "modpreneur/necktie-fpm-dev:0.2" >> /home/versions
