@@ -1,4 +1,4 @@
-FROM modpreneur/necktie-fpm:0.4
+FROM modpreneur/necktie-fpm:0.5
 
 MAINTAINER Martin Kolek <kolek@modpreneur.com>
 
@@ -9,7 +9,6 @@ RUN apk add --update \
 
 ENV TERM xterm
 
-
 RUN echo "max_execution_time=60" >> /usr/local/etc/php/php.ini \
     && echo "error_log = /var/log/php.errors" >> /usr/local/etc/php/php.ini \
     && docker-php-ext-install pcntl iconv\
@@ -18,7 +17,7 @@ RUN echo "max_execution_time=60" >> /usr/local/etc/php/php.ini \
     && npm install -g uglifycss \
     && npm install -g eslint eslint-plugin-react \
     && composer global require "hirak/prestissimo:^0.3" \
-    && composer global require phpunit/phpunit \
+    #phpunit is install with codeception
     && composer global require codeception/codeception
 
 RUN mkdir -p /root/.config/fish/functions \
@@ -35,4 +34,4 @@ RUN pecl install xdebug \
     && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/php.ini \
     && echo "alias composer=\"php -n -d memory_limit=2048M -d extension=bcmath.so -d extension=zip.so /usr/bin/composer\"" >> /root/.config/fish/functions/composer.fish
 
-RUN echo "modpreneur/necktie-fpm-dev:0.5" >> /home/versions
+RUN echo "modpreneur/necktie-fpm-dev:0.6" >> /home/versions
