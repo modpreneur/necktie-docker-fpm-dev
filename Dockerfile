@@ -1,6 +1,9 @@
-FROM modpreneur/necktie-fpm:0.5
+FROM modpreneur/necktie-fpm:0.6
 
 MAINTAINER Martin Kolek <kolek@modpreneur.com>
+
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.5/main" > /etc/apk/repositories \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/v3.5/community" >> /etc/apk/repositories
 
 RUN apk add --update \
     nano \
@@ -35,4 +38,4 @@ RUN pecl install xdebug \
     && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/php.ini \
     && echo "alias composer=\"php -n -d memory_limit=2048M -d extension=bcmath.so -d extension=zip.so /usr/bin/composer\"" >> /root/.config/fish/functions/composer.fish
 
-RUN echo "modpreneur/necktie-fpm-dev:0.6" >> /home/versions
+RUN echo "modpreneur/necktie-fpm-dev:0.7" >> /home/versions
