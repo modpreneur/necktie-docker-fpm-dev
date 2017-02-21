@@ -12,6 +12,7 @@ ENV TERM xterm
 RUN echo "max_execution_time=60" >> /usr/local/etc/php/php.ini \
     && echo "error_log = /var/log/php.errors" >> /usr/local/etc/php/php.ini \
     && docker-php-ext-install pcntl iconv\
+    && npm install npm@latest -g \
     && npm install -g less \
     && npm install -g webpack  --save-dev \
     && npm install -g uglifycss \
