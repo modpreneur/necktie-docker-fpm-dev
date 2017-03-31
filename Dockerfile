@@ -2,12 +2,13 @@ FROM modpreneur/necktie-fpm:0.9
 
 MAINTAINER Martin Kolek <kolek@modpreneur.com>
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.5/main" > /etc/apk/repositories \
-    && echo "http://dl-cdn.alpinelinux.org/alpine/v3.5/community" >> /etc/apk/repositories
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 
 RUN apk add --update \
     nano \
     nodejs \
+    nodejs-npm \
     fish
 
 ENV TERM xterm
@@ -15,7 +16,6 @@ ENV TERM xterm
 RUN echo "max_execution_time=60" >> /usr/local/etc/php/php.ini \
     && echo "error_log = /var/log/php.errors" >> /usr/local/etc/php/php.ini \
     && docker-php-ext-install pcntl iconv\
-    && npm install npm@latest -g \
     && npm install -g less \
     && npm install -g webpack  --save-dev \
     && npm install -g uglifycss \
@@ -38,4 +38,4 @@ RUN pecl install xdebug \
     && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/php.ini \
     && echo "alias composer=\"php -n -d memory_limit=2048M -d extension=bcmath.so -d extension=zip.so /usr/bin/composer\"" >> /root/.config/fish/functions/composer.fish
 
-RUN echo "modpreneur/necktie-fpm-dev:0.10" >> /home/versions
+RUN echo "modpreneur/necktie-fpm-dev:0.10.1" >> /home/versions
