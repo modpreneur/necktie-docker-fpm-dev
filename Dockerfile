@@ -27,6 +27,8 @@ RUN echo "max_execution_time=60" >> /usr/local/etc/php/php.ini \
 RUN mkdir -p /root/.config/fish/functions \
     && echo "alias codecept=\"php -n -d extension=pdo_pgsql.so -d extension=pdo_mysql.so -d extension=apcu.so -d extension=apc.so -d apc.enable_cli=1 -d apc.enabled=1 /var/app/vendor/codeception/codeception/codecept\"" >> /root/.config/fish/functions/codecept.fish
 
+ADD colors.fish /root/.config/fish/colors.fish
+
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.remote_enable=1" >> /usr/local/etc/php/php.ini \
