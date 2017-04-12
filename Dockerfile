@@ -25,7 +25,7 @@ RUN echo "max_execution_time=60" >> /usr/local/etc/php/php.ini \
     && composer global require codeception/codeception
 
 RUN mkdir -p /root/.config/fish/functions \
-    && echo "alias codecept=\"php -n -d extension=pdo_pgsql.so -d extension=pdo_mysql.so -d extension=apcu.so -d extension=apc.so /var/app/vendor/codeception/codeception/codecept\"" >> /root/.config/fish/functions/codecept.fish
+    && echo "alias codecept=\"php -n -d extension=pdo_pgsql.so -d extension=pdo_mysql.so -d extension=apcu.so -d extension=apc.so -d apc.enable_cli=1 -d apc.enabled=1 /var/app/vendor/codeception/codeception/codecept\"" >> /root/.config/fish/functions/codecept.fish
 
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug \
@@ -38,4 +38,4 @@ RUN pecl install xdebug \
     && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/php.ini \
     && echo "alias composer=\"php -n -d memory_limit=2048M -d extension=bcmath.so -d extension=zip.so /usr/bin/composer\"" >> /root/.config/fish/functions/composer.fish
 
-RUN echo "modpreneur/necktie-fpm-dev:0.10.1" >> /home/versions
+RUN echo "modpreneur/necktie-fpm-dev:0.11" >> /home/versions
