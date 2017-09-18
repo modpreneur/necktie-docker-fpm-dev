@@ -41,4 +41,21 @@ RUN pecl install xdebug \
     && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/php.ini \
     && echo "alias composer=\"php -n -d memory_limit=2048M -d extension=bcmath.so -d extension=zip.so /usr/bin/composer\"" >> /root/.config/fish/functions/composer.fish
 
-RUN echo "modpreneur/necktie-fpm-dev:0.17" >> /home/versions
+ENV BLACKFIRE_CLIENT_ID=86868e87-ef71-4d80-b099-00eec1203f70
+ENV BLACKFIRE_CLIENT_TOKEN=078a0dfe33c4736f9636c2f304969e55f47034cd83d47b41f8acb68891021372
+ENV BLACKFIRE_SERVER_ID=527e8db7-a650-4dd2-b65c-27a76e30b989
+ENV BLACKFIRE_SERVER_TOKEN=b7009cd33c9b4165c0421bd221557c4c05831fedc7c01474b13253c2f0a488f3
+
+RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
+    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/alpine/amd64/$version \
+    && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp \
+    && mv /tmp/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
+    && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
+    && chmod o+rwt /tmp
+
+RUN mkdir -p /tmp/blackfire \
+    && curl -A "Docker" -L https://blackfire.io/api/v1/releases/client/linux_static/amd64 | tar zxp -C /tmp/blackfire \
+    && mv /tmp/blackfire/blackfire /usr/bin/blackfire \
+    && rm -Rf /tmp/blackfire
+
+RUN echo "modpreneur/necktie-fpm-dev:0.18" >> /home/versions
