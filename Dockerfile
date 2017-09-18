@@ -51,11 +51,13 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp \
     && mv /tmp/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
-    && chmod o+rwt /tmp
-
-RUN mkdir -p /tmp/blackfire \
+    && mkdir -p /tmp/blackfire \
     && curl -A "Docker" -L https://blackfire.io/api/v1/releases/client/linux_static/amd64 | tar zxp -C /tmp/blackfire \
     && mv /tmp/blackfire/blackfire /usr/bin/blackfire \
-    && rm -Rf /tmp/blackfire
+    && rm -Rf /tmp/blackfire \
+    && chmod o+rwt /tmp \
+    && echo "alias blackfire-codecept=\"blackfire run php -n -d extension=pdo_pgsql.so -d extension=pdo_mysql.so -d extension=apcu.so -d extension=apc.so -d extension=mcrypt.so -d apc.enable_cli=1 -d apc.enabled=1  /var/app/vendor/codeception/codeception/codecept\"" >> /root/.config/fish/functions/blackfire-codecept.fish
+
+RUN rm -R /tmp/*
 
 RUN echo "modpreneur/necktie-fpm-dev:0.18" >> /home/versions
