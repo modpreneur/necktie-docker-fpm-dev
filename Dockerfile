@@ -1,4 +1,4 @@
-FROM modpreneur/necktie-fpm:0.15
+FROM modpreneur/necktie-fpm:0.16
 
 MAINTAINER Martin Kolek <kolek@modpreneur.com>
 
@@ -60,4 +60,4 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
 
 RUN rm -R /tmp/*
 
-RUN echo "modpreneur/necktie-fpm-dev:0.18" >> /home/versions
+RUN echo "modpreneur/necktie-fpm-dev:0.19" >> /home/versions
