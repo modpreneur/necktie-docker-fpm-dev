@@ -16,9 +16,7 @@ ENV TERM xterm
 RUN echo "max_execution_time=60" >> /usr/local/etc/php/php.ini \
     && echo "error_log = /var/log/php.errors" >> /usr/local/etc/php/php.ini \
     && docker-php-ext-install pcntl iconv\
-    && npm install -g less \
     && npm install -g webpack  --save-dev \
-    && npm install -g uglifycss \
     && npm install -g eslint eslint-plugin-react \
     && composer global require "hirak/prestissimo:^0.3" \
     #phpunit is install with codeception
@@ -39,7 +37,7 @@ RUN pecl install xdebug \
     && echo "xdebug.profiler_enable=0" >> /usr/local/etc/php/php.ini \
     && echo "xdebug.profiler_output_dir=/var/app/var/xdebug/" >> /usr/local/etc/php/php.ini \
     && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/php.ini \
-    && echo "alias composer=\"php -n -d memory_limit=2048M -d extension=bcmath.so -d extension=zip.so /usr/bin/composer\"" >> /root/.config/fish/functions/composer.fish
+    && echo "alias composer=\"php -n -d memory_limit=2048M -d extension=bcmath.so -d extension=zip.so -d extension=imap.so /usr/bin/composer\"" >> /root/.config/fish/functions/composer.fish
 
 ENV BLACKFIRE_CLIENT_ID=86868e87-ef71-4d80-b099-00eec1203f70
 ENV BLACKFIRE_CLIENT_TOKEN=078a0dfe33c4736f9636c2f304969e55f47034cd83d47b41f8acb68891021372
