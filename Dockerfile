@@ -28,6 +28,8 @@ RUN mkdir -p /root/.config/fish/functions \
 # comment to test if it failing tests
 # ADD colors.fish /root/.config/fish/colors.fish
 
+RUN docker-php-ext-configure imap --with-imap
+
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.remote_enable=1" >> /usr/local/etc/php/php.ini \
@@ -58,4 +60,4 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
 
 RUN rm -R /tmp/*
 
-RUN echo "modpreneur/necktie-fpm-dev:0.19" >> /home/versions
+RUN echo "modpreneur/necktie-fpm-dev:0.20" >> /home/versions
