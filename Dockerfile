@@ -1,4 +1,4 @@
-FROM modpreneur/necktie-fpm:0.16
+FROM modpreneur/necktie-fpm:0.17
 
 MAINTAINER Martin Kolek <kolek@modpreneur.com>
 
@@ -23,7 +23,7 @@ RUN echo "max_execution_time=60" >> /usr/local/etc/php/php.ini \
     && composer global require codeception/codeception
 
 RUN mkdir -p /root/.config/fish/functions \
-    && echo "alias codecept=\"php -n -d extension=pdo_pgsql.so -d extension=pdo_mysql.so -d extension=apcu.so -d extension=apc.so -d extension=mcrypt.so -d apc.enable_cli=1 -d apc.enabled=1  /var/app/vendor/codeception/codeception/codecept\"" >> /root/.config/fish/functions/codecept.fish
+    && echo "alias codecept=\"php -n -d extension=pdo_pgsql.so -d extension=pdo_mysql.so -d extension=apcu.so -d extension=apc.so -d extension=mcrypt.so -d extension=imap.so -d apc.enable_cli=1 -d apc.enabled=1  /var/app/vendor/codeception/codeception/codecept\"" >> /root/.config/fish/functions/codecept.fish
 
 # comment to test if it failing tests
 # ADD colors.fish /root/.config/fish/colors.fish
@@ -56,8 +56,8 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && mv /tmp/blackfire/blackfire /usr/bin/blackfire \
     && rm -Rf /tmp/blackfire \
     && chmod o+rwt /tmp \
-    && echo "alias blackfire-codecept=\"blackfire run php -n -d extension=pdo_pgsql.so -d extension=pdo_mysql.so -d extension=apcu.so -d extension=apc.so -d extension=mcrypt.so -d apc.enable_cli=1 -d apc.enabled=1  /var/app/vendor/codeception/codeception/codecept\"" >> /root/.config/fish/functions/blackfire-codecept.fish
+    && echo "alias blackfire-codecept=\"blackfire run php -n -d extension=pdo_pgsql.so -d extension=pdo_mysql.so -d extension=apcu.so -d extension=apc.so -d extension=mcrypt.so -d extension=imap.so -d apc.enable_cli=1 -d apc.enabled=1  /var/app/vendor/codeception/codeception/codecept\"" >> /root/.config/fish/functions/blackfire-codecept.fish
 
 RUN rm -R /tmp/*
 
-RUN echo "modpreneur/necktie-fpm-dev:0.20" >> /home/versions
+RUN echo "modpreneur/necktie-fpm-dev:0.21" >> /home/versions
